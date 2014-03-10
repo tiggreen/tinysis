@@ -56,7 +56,7 @@ define('DATE_FORMAT',		'%Y%m%d');
 |      
 |
 */
-
+define('LOGIN_INVALID_USERAME_OR_PASS',		'Invalid username and/or password.');
 
 /* End of file constants.php */
 /* Location: ./application/config/constants.php */

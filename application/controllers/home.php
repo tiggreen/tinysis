@@ -3,6 +3,16 @@
 class Home extends CI_Controller {
 
 	public function index() {
-		$this->load->view('home');
+		if(!$this->session->userdata('validated'))
+        {
+            redirect(site_url());
+        } else {
+        	$this->load->view('home');
+        }
+	}
+	public function logout() {
+		$this->session->unset_userdata(array('validated'=>false));
+        $this->session->sess_destroy();
+        redirect(site_url());
 	}
 }
