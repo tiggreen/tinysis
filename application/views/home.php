@@ -1,45 +1,6 @@
-
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <title>Home Page</title>
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
-    <link href="../stylesheets/offcanvas.css" rel="stylesheet">
-  </head>
-
-  <body>
-    <div class="navbar navbar-fixed-top navbar-default" role="navigation">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="#">TinySIS</a>
-        </div>
-        <div class="collapse navbar-collapse">
-          <ul class="nav navbar-nav">
-            <li class="active"><a href="#">Home</a></li>
-          </ul>
-          <ul class="nav navbar-nav navbar-right">
-            <li><a href="<?php echo site_url("home/logout"); ?>">
-            Log Out
-            </a></li>
-          </ul>
-        </div><!-- /.nav-collapse -->
-      </div><!-- /.container -->
-    </div><!-- /.navbar -->
-
-    <div class="container">
+<div class="container">
     <div class="row">
-      <div class="col-lg-8 col-sm-8 col-md-8 hidden-xs lead">
+      <div class="col-lg-8 col-sm-8 col-md-8 col-xs-8  lead">
         <?php
             $user_role = $this->session->userdata('role');
             $result_string = "You are logged in as ";
@@ -60,6 +21,45 @@
             }
             echo $result_string;
          ?>
+      </div>
+      <div class="col-lg-3  col-md-3 col-xs-3 col-sm-3 sidebar-offcanvas" id="sidebar" role="navigation">
+        <div class="list-group">
+          <a href="<?php echo site_url('home/profile'); ?>" class="list-group-item active">
+          <?php
+          if ($user_role == 1 ) {
+           echo $this->session->userdata('fname').' '
+                .$this->session->userdata('lname') . ' ( Student ) '; 
+          } else if ($user_role == 2) {
+            echo $this->session->userdata('fname').' '
+                 .$this->session->userdata('lname') . ' ( Instructor ) '; 
+          }
+           else if ($user_role == 3) {
+            echo "Administrator";
+          } else {
+             echo "Super User";
+          }
+          ?></a>
+          <a href="<?php echo site_url('home/profile'); ?>" class="list-group-item">Profile</a>
+          <a href="<?php echo site_url('home/courses'); ?>"
+           class="list-group-item">
+           <? if ( $user_role == 1 ) {
+                echo "Courses Enrolled";
+
+            } else if ( $user_role == 2 ) {
+                echo "Courses Teaching";
+            } else {
+                 echo "All Courses";
+            }
+             ?>
+          </a>
+          <a href="#" class="list-group-item">Link</a>
+          <a href="#" class="list-group-item">Link</a>
+          <a href="#" class="list-group-item">Link</a>
+          <a href="#" class="list-group-item">Link</a>
+          <a href="#" class="list-group-item">Link</a>
+          <a href="#" class="list-group-item">Link</a>
+          <a href="#" class="list-group-item">Link</a>
+        </div>
       </div>
     </div>
 

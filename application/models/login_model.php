@@ -49,7 +49,7 @@ class Login_model extends CI_Model {
                     $data['user_id'] = $user_id;
 
                     $data['fname'] = $row_student->fname;
-                    $data['lname'] = $row_student->fname;
+                    $data['lname'] = $row_student->lname;
                     $data['email'] = $row->email;
                     $data['role'] = 1;
                     $data['validated'] = TRUE;
@@ -70,7 +70,7 @@ class Login_model extends CI_Model {
                     $data['user_id'] = $user_id;
 
                     $data['fname'] = $row_instructor->fname;
-                    $data['lname'] = $row_instructor->fname;
+                    $data['lname'] = $row_instructor->lname;
                     $data['email'] = $row->email;
                     $data['role'] = 2;
                     $data['validated'] = TRUE;
