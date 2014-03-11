@@ -23,7 +23,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" target="_blank" href="https://github.com/thakobyan/tinysis">TinySIS</a>
+          <a class="navbar-brand" href="<?php echo site_url('home'); ?>">TinySIS</a>
         </div>
         <div class="collapse navbar-collapse">
           <ul class="nav navbar-nav">

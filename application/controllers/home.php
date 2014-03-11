@@ -16,7 +16,8 @@ class Home extends CI_Controller {
 			$this->load->model('home_model');
 			$data = $this->home_model->getTheCourses();
 			$this->load->view('header');
-			$this->load->view('courses', $data);
+			$result['data'] = $data;
+			$this->load->view('courses', $result);
 			
 	}
 

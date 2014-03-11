@@ -1,7 +1,11 @@
 <div class="container">
     <div class="row">
       <div class="col-lg-8 col-sm-8 col-md-8 col-xs-8  lead">
-      hey hey hey 
+      <?php
+       foreach ($data as $course) {
+       		echo $course['name'].'<BR>';
+       }
+       	?>
       </div>
     </div> 
 </div><!--/.container-->
