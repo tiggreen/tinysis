@@ -21,6 +21,15 @@ class Home extends CI_Controller {
 			
 	}
 
+	public function profile() {
+			$this->load->model('home_model');
+			$data = $this->home_model->getTheProfile();
+			$this->load->view('header');
+			$result['data'] = $data;
+			$this->load->view('profile', $result);
+			
+	}
+
 	public function logout() {
 		$this->session->unset_userdata(array('validated'=>false));
         $this->session->sess_destroy();

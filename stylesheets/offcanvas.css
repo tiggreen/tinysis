@@ -56,4 +56,7 @@ footer {
     top: 0;
     width: 50%; /* 6 columns */
   }
+  .panel-default .panel-heading {
+    background-color: #AAE5E3;
+  }
 }
