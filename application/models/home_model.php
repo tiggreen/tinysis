@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php //if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /* 
  * Description: Login model class
  */
@@ -44,6 +44,39 @@ class Home_model extends CI_Model {
         }
         return $result_data;
     }
+
+    public function getTheClassList() {
+
+        $user_id = $this->session->userdata('user_id');
+        $role = $this->session->userdata('role');
+        $result_data = array();
+        if ( $role == 2 ) {
+
+            $sql = "SELECT courses_teaching FROM instructor  WHERE user_id = ? ";
+            $query = $this->db->query($sql, array($user_id));
+            $ind = 0; 
+            if ($query->num_rows() > 0 ) {
+                    $rw = $query->row();
+                    $courses = explode (";", $rw->courses_teaching);
+
+                    $query_students = $this->db->get('student');
+                    foreach ($query_students->result() as $row) {
+
+                        $studentCourses = explode (";", $row->courses_taking);
+                        $matched_courses = array_intersect ($courses, $studentCourses);
+                        if (!empty($matched_courses)) {
+                                $result_data[$ind]['id'] = $row->id;
+                                $result_data[$ind]['fname'] = $row->fname;
+                                $result_data[$ind]['lname'] =  $row->lname;
+                                $result_data[$ind]['suid'] = $row->suid;
+                                $ind++;
+                        }
+                    }
+            }
+            return $result_data;
+        }
+    }
+    
     public function getTheProfile() {
 
         $user_id = $this->session->userdata('user_id');
@@ -64,7 +97,137 @@ class Home_model extends CI_Model {
                 $result_data['phone'] = $row->phone;
                 $result_data['ssn'] = $row->ssn;
             }
+        } else if ($role == 2) {
+
+            $sql = "SELECT * FROM instructor  WHERE user_id = ? "; 
+            $query = $this->db->query($sql, array($user_id));
+            $row = $query->row();
+            if ($query->num_rows() > 0 ) {
+                $result_data['id'] = $row->id;
+                $result_data['fname'] =  $row->fname;
+                $result_data['lname'] = $row->lname;
+                $result_data['phone'] = $row->phone;
+            }
         }
         return $result_data;
     }
+    public function set_address() {
+
+        $user_id = $this->session->userdata('user_id');
+        $role = $this->session->userdata('role');
+        $result_data = array();
+        $this->load->library('form_validation');
+        if ($role == 1) {
+      
+            $this->form_validation->set_rules('value', 'Address', 'trim|required');
+            $this->form_validation->set_rules('pk', 'Id', 'trim|required|numeric');
+            $address = $this->security->xss_clean($this->input->post('value'));
+            $id = $this->security->xss_clean($this->input->post('pk'));
+
+
+            if ($this->form_validation->run() !== FALSE)
+            {   
+                $sql = "SELECT * FROM student JOIN user 
+                        ON student.user_id = user.id 
+                        WHERE student.id = ? "; 
+
+                $query = $this->db->query($sql, array($id));
+                $row = $query->row();
+
+                if ($query->num_rows() > 0 ) {
+                    $data = array(
+                                   'address' => $address,
+                                );
+
+                    $this->db->where('id', $id);
+                    $this->db->update('student', $data);
+                    return TRUE; 
+
+                } else {
+                    return FALSE;
+                }
+            } else {
+                return FALSE;
+            }
+        }
+    }
+
+    public function set_phone() {
+
+        $user_id = $this->session->userdata('user_id');
+        $role = $this->session->userdata('role');
+        $result_data = array();
+        // If the user is a student
+        $this->load->library('form_validation');
+                            var_dump($role);
+        if ($role == 1) {
+      
+            $this->form_validation->set_rules('value', 'Phone', 'trim|numeric');
+            $this->form_validation->set_rules('pk', 'Id', 'trim|required|numeric');
+            $phone = $this->security->xss_clean($this->input->post('value'));
+            $id = $this->security->xss_clean($this->input->post('pk'));
+
+            
+            if ($this->form_validation->run() !== FALSE)
+            {   
+                $sql = "SELECT * FROM student JOIN user 
+                        ON student.user_id = user.id 
+                        WHERE student.id = ? "; 
+
+                $query = $this->db->query($sql, array($id));
+                $row = $query->row();
+
+                if ($query->num_rows() > 0 ) {
+                    $data = array(
+                                   'phone' => $phone,
+                                );
+
+                    $this->db->where('id', $id);
+                    $this->db->update('student', $data);
+                    return TRUE; 
+
+                } else {
+                    return FALSE;
+                }
+            } else {
+                return FALSE;
+            }
+        // If the user is an instructor
+        } else if ($role == 2) {
+    
+            $this->form_validation->set_rules('value', 'Phone', 'trim|numeric');
+            $this->form_validation->set_rules('pk', 'Id', 'trim|required|numeric');
+            $phone = $this->security->xss_clean($this->input->post('value'));
+            $id = $this->security->xss_clean($this->input->post('pk'));
+            
+            if ($this->form_validation->run() !== FALSE)
+            {   
+                $sql = "SELECT * FROM instructor JOIN user 
+                        ON instructor.user_id = user.id 
+                        WHERE instructor.id = ? "; 
+                var_dump($sql);
+                $query = $this->db->query($sql, array($id));
+                var_dump($id);
+                $row = $query->row();
+
+                if ($query->num_rows() > 0 ) {
+                    $data = array(
+                                   'phone' => $phone
+                                );
+
+                    $this->db->where('id', $id);
+                    $this->db->update('instructor', $data);
+                    return TRUE; 
+
+                } else {
+                    return FALSE;
+                }
+            } else {
+                return FALSE;
+            }
+        } else {
+            return FALSE;
+        }
+    }
+
 }

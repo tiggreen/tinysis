@@ -8,7 +8,13 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <base href="<?=base_url();?>">
-    <title>Courses</title>
+    <title>
+    <?php 
+    if (isset($title)) { 
+      echo $title; 
+    }
+    ?>
+    </title>
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
     <link href="stylesheets/offcanvas.css" rel="stylesheet">
   </head>

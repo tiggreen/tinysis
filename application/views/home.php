@@ -40,8 +40,7 @@
           }
           ?></a>
           <a href="<?php echo site_url('home/profile'); ?>" class="list-group-item">Profile</a>
-          <a href="<?php echo site_url('home/courses'); ?>"
-           class="list-group-item">
+          <a href="<?php echo site_url('home/courses'); ?>" class="list-group-item">
            <? if ( $user_role == 1 ) {
                 echo "Courses Enrolled";
 
@@ -52,6 +51,9 @@
             }
              ?>
           </a>
+          <?php if ( $user_role == 2 ) { ?>
+          <a href="<?php echo site_url('home/classlist'); ?>" class="list-group-item">Classlist</a> 
+           <? } ?>
         </div>
       </div>
     </div>

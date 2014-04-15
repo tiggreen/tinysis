@@ -2,14 +2,6 @@
 <div class="container">
     <div class="row lead">
       <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
-      <?php echo "<b>Student ID:</b>"; ?>
-      </div>
-      <div class="col-lg-5 col-sm-5 col-md-5 col-xs-5">
-      <?php echo $data['suid']; ?>
-      </div>
-    </div>
-    <div class="row lead">
-      <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
       <?php echo "<b>First Name:</b>"; ?>
       </div>
       <div class="col-lg-5 col-sm-5 col-md-5 col-xs-5">
@@ -24,16 +16,6 @@
       <?php echo $data['lname']; ?>
       </div>
     </div> 
-    <div class="row lead">
-      <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
-      <?php echo "<b>Address:</b>"; ?>
-      </div>
-      <div class="col-lg-5 col-sm-5 col-md-5 col-xs-5">
-      <a href="#" id="address" data-type="text" data-pk="<?php echo $data['id']; ?>" 
-        data-url="<?php echo site_url("/home/set_address"); ?>"
-       data-title="Enter a new address"><?php echo $data['address']; ?></a>
-      </div>
-    </div>  
     <div class="row lead">
       <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
       <?php echo "<b>Phone:</b>"; ?>
@@ -53,7 +35,7 @@
   //turn to inline mode
   $.fn.editable.defaults.mode = 'popup';
   $(document).ready(function() {
-      $('#address, #phone').editable( {
+      $('#phone').editable( {
         
         success: function(response, newValue) {
                 if(response.status == 'error') return response.msg; //msg will be shown in editable form
