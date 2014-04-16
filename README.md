@@ -27,5 +27,5 @@ Instructor role - username: jpalis@rit.edu password: james
 Admin role - username: tigerwoods@rit.edu password: tigerwoods
 Super user role - username: miaphipps@rit.edu  password: letmein
 
-8. You are all set to run TinySIS. Thank you for your interest. 
+You are all set to run TinySIS. Thank you for your interest. 
 
