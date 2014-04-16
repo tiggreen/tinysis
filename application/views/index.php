@@ -9,7 +9,7 @@
     <base href="<?=base_url();?>">
     <link rel="shortcut icon" href="favicon.ico">
 
-    <title>SDM</title>
+    <title>TinySIS</title>
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
     <link href="stylesheets/index.css" rel="stylesheet">
   </head>
@@ -28,6 +28,13 @@
   ?>
 
     <div class="container">
+    <div class="header">
+      <ul class="nav nav-pills pull-right">
+        <li><a class="green" href="https://github.com/thakobyan/tinysis">GitHub</a></li>
+        <li><a class="green" href="https://twitter.com/tigranhk">Contact</a></li>
+      </ul>
+      <h3 class="text-muted">Welcome to TinySIS</h3>
+    </div>
     <?php
       $attributes = array('class' => 'form-signin', 'role' => 'form'); 
         echo form_open('login/process', $attributes); ?>

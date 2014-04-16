@@ -41,6 +41,16 @@ class Home_model extends CI_Model {
                     $result_data[$course_id]['description'] = $row_course->description;
                 }
             }
+        } else if ($role == 3 || $role == 4 ) {
+            $query = $this->db->get("course");
+            $ind = 0;
+            foreach ($query->result() as $row) {
+                $result_data[$ind]['id'] = $row->id;
+                $result_data[$ind]['number'] = $row->number;
+                $result_data[$ind]['name'] =  $row->name;
+                $result_data[$ind]['description'] = $row->description;
+                $ind++;
+            }
         }
         return $result_data;
     }
@@ -73,8 +83,20 @@ class Home_model extends CI_Model {
                         }
                     }
             }
-            return $result_data;
+            
+        } else if ( $role == 3 || $role == 4 ) {
+            
+            $query_students = $this->db->get('student');
+            $ind = 0;
+            foreach ($query_students->result() as $row) {
+                $result_data[$ind]['id'] = $row->id;
+                $result_data[$ind]['fname'] = $row->fname;
+                $result_data[$ind]['lname'] =  $row->lname;
+                $result_data[$ind]['suid'] = $row->suid;
+                $ind++;
+            }
         }
+        return $result_data;
     }
     
     public function getTheProfile() {
@@ -205,9 +227,7 @@ class Home_model extends CI_Model {
                 $sql = "SELECT * FROM instructor JOIN user 
                         ON instructor.user_id = user.id 
                         WHERE instructor.id = ? "; 
-                var_dump($sql);
                 $query = $this->db->query($sql, array($id));
-                var_dump($id);
                 $row = $query->row();
 
                 if ($query->num_rows() > 0 ) {
@@ -225,6 +245,64 @@ class Home_model extends CI_Model {
             } else {
                 return FALSE;
             }
+        } else {
+            return FALSE;
+        }
+    }
+    public function add_course() {
+
+        $role = $this->session->userdata('role');
+        if ($role == 1 || $role == 2) return FALSE;
+        $this->load->library('form_validation');
+        $name = $this->security->xss_clean($this->input->post('name'));
+        $number = $this->security->xss_clean($this->input->post('number'));
+        $desc = $this->security->xss_clean($this->input->post('desc'));
+        $this->form_validation->set_rules('name', 'Name', 'trim|required');
+        $this->form_validation->set_rules('number', 'Number', 'trim|required|numeric');
+        $this->form_validation->set_rules('desc', 'Desc', 'trim');
+
+        if ($this->form_validation->run() !== FALSE) {   
+            
+            $data = array(
+               'name' => $name ,
+               'number' => $number ,
+               'description' => $desc
+            );
+
+            $this->db->insert('course', $data); 
+            return TRUE; 
+
+        } else {
+            return FALSE;
+        }
+    }
+
+    public function del_course($course_id) {
+
+        $role = $this->session->userdata('role');
+        if ($role != 4) return FALSE;
+
+        $sql = "SELECT name FROM course
+                WHERE  id = ? "; 
+        $query = $this->db->query($sql, array($course_id));
+        if ($query->num_rows() > 0 ) {
+            $this->db->delete('course', array('id' => $course_id)); 
+            return TRUE;
+        } else {
+            return FALSE;
+        }
+    }
+    public function del_student($student_id) {
+
+        $role = $this->session->userdata('role');
+        if ($role != 4) return FALSE;
+
+        $sql = "SELECT fname FROM student
+                WHERE  id = ? "; 
+        $query = $this->db->query($sql, array($student_id));
+        if ($query->num_rows() > 0 ) {
+            $this->db->delete('student', array('id' => $student_id)); 
+            return TRUE;
         } else {
             return FALSE;
         }

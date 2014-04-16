@@ -34,26 +34,37 @@
                  .$this->session->userdata('lname') . ' ( Instructor ) '; 
           }
            else if ($user_role == 3) {
-            echo "Administrator";
+            echo $this->session->userdata('email'). ' ( Admin ) ';
           } else {
              echo "Super User";
           }
           ?></a>
+          <?php if ( $user_role == 1 || $user_role == 2 ) { ?>
           <a href="<?php echo site_url('home/profile'); ?>" class="list-group-item">Profile</a>
+         <?php } ?>
+
           <a href="<?php echo site_url('home/courses'); ?>" class="list-group-item">
            <? if ( $user_role == 1 ) {
-                echo "Courses Enrolled";
+                echo "Courses enrolled";
 
             } else if ( $user_role == 2 ) {
-                echo "Courses Teaching";
-            } else {
-                 echo "All Courses";
+                echo "Courses teaching";
+            } else  {
+                 echo "All courses";
             }
              ?>
           </a>
           <?php if ( $user_role == 2 ) { ?>
           <a href="<?php echo site_url('home/classlist'); ?>" class="list-group-item">Classlist</a> 
            <? } ?>
+           <?php if ( $user_role == 3 || $user_role == 4) { ?>
+           <a href="<?php echo site_url('home/classlist'); ?>" class="list-group-item">All students</a>
+           <a href="<?php echo site_url('home/add_course_view'); ?>" class="list-group-item">Add a course</a>
+            <? }
+            if ($user_role == 4) { ?> 
+            
+             <? }
+             ?>
         </div>
       </div>
     </div>
