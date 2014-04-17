@@ -10,6 +10,7 @@ class Login extends CI_Controller {
 		$this->load->model('login_model');
 	    $result = $this->login_model->validate();
 	    if($result === TRUE) {
+	    	$this->login_model->set_activity_record();
 	        redirect('home', 'refresh');
 
 	    } else {

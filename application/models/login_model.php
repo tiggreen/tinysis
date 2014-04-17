@@ -8,6 +8,60 @@ class Login_model extends CI_Model {
         parent::__construct();
         $this->load->library('encrypt');
     }
+    public function set_activity_record() {
+
+        $this->load->helper('date');
+        $user_id = $this->session->userdata('user_id');
+        $ip = $this->input->ip_address();
+        $sql = "SELECT * FROM user_activity  WHERE user_id = ? ";
+        $query = $this->db->query($sql, array($user_id));
+
+        // if user is already in the table just update the data,
+        // otherwise create a new record.
+
+        if ($query->num_rows() > 0) {
+            //var_dump("d");
+            $data = array(
+               'ip_address' => $ip,
+               'last_login' => time()
+            );
+
+            $this->db->where('user_id', $user_id);
+            $this->db->update('user_activity', $data); 
+
+        } else {
+            $data = array(
+               'ip_address' => $ip ,
+               'user_id' => $user_id ,
+               'last_login' => time()
+            );
+
+            $this->db->insert('user_activity', $data); 
+        }
+
+    }
+    public function set_only_logout() {
+
+        $this->load->helper('date');
+        $user_id = $this->session->userdata('user_id');
+        $ip = $this->input->ip_address();
+        $sql = "SELECT * FROM user_activity  WHERE user_id = ? ";
+        $query = $this->db->query($sql, array($user_id));
+
+        // if user is already in the table just update the data,
+        // otherwise create a new record.
+
+        if ($query->num_rows() > 0) {
+            $data = array(
+               'last_logout' => time()
+            );
+
+            $this->db->where('user_id', $user_id);
+            $this->db->update('user_activity', $data); 
+
+       }
+
+    }
 
     public function validate() {
 

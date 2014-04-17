@@ -120,6 +120,8 @@ class Home extends CI_Controller {
 	}
 
 	public function logout() {
+		$this->load->model('login_model');
+		$this->login_model->set_only_logout();
 		$this->session->unset_userdata(array('validated'=>false));
         $this->session->sess_destroy();
         redirect(site_url());
